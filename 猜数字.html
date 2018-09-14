@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>猜数字游戏</title>
+		<style type="text/css">
+			body{
+				background-color: aqua;
+			}
+			.guessNumber{
+				width: 300px;
+				height: 300px;
+				margin: auto;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				border: 1px solid #000;
+				background-color: white;
+				border-radius:20px 20px 20px 20px ;
+			}
+			.guessNumber h2{
+				text-align: center;
+			}
+			.guessNumber .guessC{
+				width: 252px;
+				margin: auto;
+			}
+			.guessNumber #numInput{
+				/*
+				 去掉input默认的边框、轮廓、背景
+				 * */
+				border: none;
+				outline: none;
+				border: 1px solid #000;
+				width: 186px;
+   	 			height: 30px;
+   	 			border-radius: 20px 0 0 20px;
+   	 			text-indent: 15px;
+			}
+			.guessNumber #btnGuess{
+				border: none;
+				outline: none;
+				background-color: white;
+				border: 1px solid #000;
+				width: 56px;
+				height: 34px;
+				border-radius: 0 20px 20px 0;
+				position: absolute;
+				top: 70px;
+			}
+			p{
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--
+			猜数字游戏
+			作者：whqet  时间：20180914
+			版本：v0.1
+			说明：本游戏主要为了帮助大家熟悉JS开发流程，了解JS游戏的程序架构，巩固JS语言基础
+			步骤：
+				1. 实现页面结构  HTML
+				2. 页面结构布局及美化 CSS
+				3. 页面逻辑的实现  Javascript
+		-->
+		<div class="guessNumber">
+			<h2 class="title">猜数字游戏</h2>
+			<div class="guessC">
+				<input id="numInput" type="number" placeholder="0-10整数，6次机会" /><input id="btnGuess" type="button" value="提交" onclick="guess();"/>
+			</div>
+			<div class="tip">
+				<p id="guessTime">剩余次数：6</p>
+				<p>猜测历史：</p>
+				<p id="tipText"></p>
+			</div>
+		</div>
+		<script>
+			var rand=parseInt(Math.random()*11);;
+			console.log(rand);
+			var guessTimes=6;
+			var oNumInput =document.getElementById("numInput");
+			var oBtnGuess =document.getElementById("btnGuess");
+			var oTipText=document.getElementById("tipText");
+			var oGuessTime=document.getElementById("guessTime");
+			var nextGame=0;
+			function guess(){
+				if(nextGame==1){
+					oTipText.innerHTML="";
+					guessTimes=6;
+					oGuessTime.innerHTML="剩余次数："+guessTimes;
+					rand=parseInt(Math.random()*11);
+					nextGame=0;
+				}
+				else{
+					if(oNumInput.value>rand){
+						if(guessTimes==0){oTipText.innerHTML+="次数用尽，挑战失败。<br/>";nextGame=1;}
+						oTipText.innerHTML+="你输入的数"+oNumInput.value+",有点大，可以再小一点。<br/>";
+						oNumInput.value="";
+						oNumInput.focus();
+						guessTimes-=1;
+						oGuessTime.innerHTML="剩余次数："+guessTimes;
+					}
+					else if(oNumInput.value<rand){
+						if(guessTimes==0){oTipText.innerHTML+="次数用尽，挑战失败。<br/>";nextGame=1;}
+						oTipText.innerHTML+="你输入的数"+oNumInput.value+",有点小，可以再大一点。<br/>";
+						oNumInput.value="";
+						oNumInput.focus();
+						guessTimes-=1;
+						oGuessTime.innerHTML="剩余次数："+guessTimes;
+					}
+					else if(oNumInput.value==rand){
+						if(guessTimes==0){oTipText.innerHTML+="次数用尽，挑战失败。<br/>";nextGame=1;}
+						oNumInput.value=null;
+						oTipText.innerHTML+="你输入的数"+oNumInput.value+",是正确答案。再次单击重新开始。<br/>";
+						nextGame=1;
+						oNumInput.value="";
+					}
+				}
+			}
+		</script>
+	</body>
+
+</html>
